@@ -5,14 +5,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.time.LocalDateTime;
+import javax.validation.constraints.Pattern;
+import java.util.Date;
 
 
 @Getter
@@ -21,7 +25,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name="exhibition")
+@Table(name = "exhibition")
 public class Exhibition {
 
     @Id
@@ -30,18 +34,23 @@ public class Exhibition {
     private int id;
 
     @Column(name = "name")
+    @Pattern(regexp = "[a-zA-Z\\d*]{3,}",message = "exhibition name must contain only letters and numbers")
     private String name;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "start_date_time")
-    private LocalDateTime startDateTime;
+    private Date startDateTime;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "end_date_time")
-    private LocalDateTime endDateTime;
+    private Date endDateTime;
 
-    @Column(name = "city_id")
-    private int cityId;
+    @ManyToOne
+    @JoinColumn(name = "city_id", referencedColumnName = "id")
+    private City city;
 
-    @Column(name = "organization_id")
-    private int organizationId;
+    @ManyToOne
+    @JoinColumn(name = "organization_id", referencedColumnName = "id")
+    private Organization organization;
 
 }

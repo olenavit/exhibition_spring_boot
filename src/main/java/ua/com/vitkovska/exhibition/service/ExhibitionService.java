@@ -7,34 +7,42 @@ import ua.com.vitkovska.exhibition.entity.Exhibition;
 import ua.com.vitkovska.exhibition.repository.ExhibitionRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ExhibitionService implements IService<Exhibition> {
 
-    private final ExhibitionRepository exhibitionRepository;
+    private ExhibitionRepository exhibitionRepository;
 
     @Autowired
-    public ExhibitionService(ExhibitionRepository exhibitionRepository) {
+    public void setExhibitionRepository(ExhibitionRepository exhibitionRepository) {
         this.exhibitionRepository = exhibitionRepository;
     }
 
     @Override
     public List<Exhibition> findAll() {
-       return exhibitionRepository.findAll();
+        return exhibitionRepository.findAll();
     }
 
     @Override
-    public Exhibition findById(int id) {
-        return null;
+    public Optional<Exhibition> findById(int id) {
+        return exhibitionRepository.findById(id);
     }
 
     @Override
     public void save(Exhibition entity) {
-
+        exhibitionRepository.save(entity);
     }
 
     @Override
     public void deleteById(int id) {
+        exhibitionRepository.deleteById(id);
+    }
 
+    public List<Exhibition> searchByName(String name) {
+        if (name != null && (name.trim().length() > 0)){
+            return exhibitionRepository.findAllByNameContainsAllIgnoreCase(name);
+        }
+        else return findAll();
     }
 }

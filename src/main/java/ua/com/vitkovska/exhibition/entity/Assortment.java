@@ -6,7 +6,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.Min;
 
 
 @Entity
@@ -15,23 +21,25 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Table(name="assortment")
+@Table(name = "assortment")
 public class Assortment {
 
     @Id
-    @JoinColumn(table = "product", name = "id")
-    @Column(name = "product_id")
-    private int productId;
+    private int id;
 
-    @JoinColumn(table = "organization", name = "id")
-    @Column(name = "organization_id")
-    private int organizationId;
+    @OneToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 
-    @Column(name = "exhibition_id")
-    @JoinColumn(table = "exhibition", name = "id")
+    @OneToOne
+    @JoinColumn(name = "organization_id")
+    private Organization organization;
 
-    private int address;
+    @OneToOne
+    @JoinColumn(name = "exhibition_id")
+    private Exhibition exhibition;
 
     @Column(name = "amount")
-    private int city;
+    private int amount;
+
 }

@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 
 @Entity
 @Getter
@@ -19,8 +21,8 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name="product")
-public class Product {
+@Table(name = "product")
+public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,5 +30,6 @@ public class Product {
     private int id;
 
     @Column(name = "name")
+    @Pattern(regexp = "[a-zA-Z\\d*]{3,}", message ="must contain only letters and numbers")
     private String name;
 }

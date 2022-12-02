@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+	<title>Save Employee</title>
+</head>
+
+<body>
+
+	<div class="container">
+	
+		<h3>Exhibition Directory</h3>
+		<hr>
+		
+		<p class="h4 mb-4">Save Exhibition</p>
+	
+		<form th:action="@{/exhibitions/save}"
+			  th:object="${exhibition}" method="POST">
+
+			<input type="hidden" th:field="*{id}" />
+			
+			<input type="text" th:field="*{name}"
+					class="form-control mb-4 col-4" placeholder="Name">
+			<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert alert-danger"></p>
+
+			<input type="date" th:field="*{startDateTime}"
+					class="form-control mb-4 col-4" placeholder="Start date and time">
+
+			<input type="date" th:field="*{endDateTime}"
+				   class="form-control mb-4 col-4" placeholder="End date and time">
+
+			<select th:field="*{city}" class="form-control mb-4 col-4">
+				<option value="0">select city</option>
+				<option th:each="city1 : ${cities}" th:value="${city1.id}" th:text="${city1.name}"></option>
+			</select>
+
+
+			<select th:field="*{organization}" class="form-control mb-4 col-4">
+				<option value="0">select organization </option>
+				<option th:each="organization1 : ${organizations}" th:value="${organization1.id}" th:text="${organization1.name}"></option>
+			</select>
+				
+			<button type="submit" class="btn btn-info col-2">Save</button>
+						
+		</form>
+	
+		<hr>
+		<a th:href="@{/exhibitions/list}">Back to Exhibitions List</a>
+		
+	</div>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+

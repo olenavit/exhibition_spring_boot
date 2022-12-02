@@ -4,17 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-@Table(name="city")
+@Table(name = "city")
 public class City {
 
     @Id
@@ -23,5 +27,11 @@ public class City {
     private int id;
 
     @Column(name = "name")
+    @Pattern(regexp = "[a-zA-Z]")
     private String name;
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }

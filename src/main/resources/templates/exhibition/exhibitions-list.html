@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <title>Exhibitions</title>
+</head>
+
+<body>
+
+<div class="pos-f-t">
+    <div class="collapse" id="navbarToggleExternalContent">
+        <div class="bg-light p-4">
+            <nav class="nav flex-column">
+                <h4 class="text-black" style="text-transform: capitalize" sec:authentication="name"></h4>
+                <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/exhibitions/create}" class="nav-link">
+                    Add exhibition
+                </a>
+
+                <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/organizations/create}" class="nav-link">
+                    Add organization
+                </a>
+                <form action="#" th:action="@{/logout}" method="POST">
+                    <input type="submit" value="Logout" class="btn btn-link"/>
+                </form>
+            </nav>
+
+        </div>
+    </div>
+
+    <nav class="navbar navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+</div>
+<div class="container">
+
+
+    <h3>Exhibitions</h3>
+    <hr>
+
+    <form th:action="@{/exhibitions/search}" class="form-inline">
+
+
+        <input class="form-control" type="search" name="exhibitionName"
+               placeholder="Search by name"/>
+
+        <button class="btn btn-success" type="submit">Search</button>
+    </form>
+
+
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Name</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>City</th>
+            <th>Organization</th>
+            <div sec:authorize="hasRole('ROLE_ADMIN')">
+                <th>Action</th>
+            </div>
+
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="exhibition : ${exhibitions}">
+            <td>
+                <a th:text="${exhibition.name}"
+                   th:href="@{/exhibitions/show(exhibitionId=${exhibition.id})}"></a>
+            </td>
+
+            <td th:text="${exhibition.startDateTime}"></td>
+            <td th:text="${exhibition.endDateTime}"></td>
+            <td th:text="${exhibition.city}"></td>
+
+            <td>
+                <a th:text="${exhibition.organization}"
+                   th:href="@{/organizations/organization(organizationId=${exhibition.organization.id})}"></a>
+            </td>
+            <div sec:authorize="hasRole('ROLE_ADMIN')">
+                <td>
+
+                    <a th:href="@{/exhibitions/update(exhibitionId=${exhibition.id})}"
+                       class="btn btn-info btn-sm">Update</a>
+
+                    <a th:href="@{/exhibitions/delete(exhibitionId=${exhibition.id})}" class="btn btn-danger btn-sm"
+                       onclick="if (!(confirm('Are you sure you want to delete this exhibition?'))) return false">Delete</a>
+
+
+                </td>
+            </div>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+

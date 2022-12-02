@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <title>Organization Page</title>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h3>Organization Page</h3>
+    <hr>
+
+    <div th:object="${organization}">
+
+        <div th:text="${organization.name}"></div>
+        <div th:text="${organization.address}"></div>
+        <div th:text="${organization.phone}"></div>
+        <div th:text="${organization.city}"></div>
+        <div sec:authorize="hasRole('ROLE_ADMIN')">
+            <a th:href="@{/organizations/update(organizationId=${organization.id})}"
+               class="btn btn-info btn-sm">Update</a>
+
+            <a th:href="@{/organizations/delete(organizationId=${organization.id})}" class="btn btn-danger btn-sm"
+               onclick="if (!(confirm('Are you sure you want to delete this exhibition?'))) return false">Delete</a>
+        </div>
+    </div>
+
+    <h4>Products</h4>
+    <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/products/createOrganizationProduct(organizationId=${organization.id})}" class="nav-link">
+        Add product
+    </a>
+    <ul class="list-group" th:each="product : ${assortment}">
+        <li class="list-group-item">
+            <span th:text="${product.product.name}"></span>
+            <span sec:authorize="hasRole('ROLE_ADMIN')">
+
+            <a th:href="@{/products/deleteOrganizationProduct(assortmentId=${product.id})}" class="btn btn-danger btn-sm"
+               onclick="if (!(confirm('Are you sure you want to delete this product?'))) return false">Delete</a>
+        </span>
+        </li>
+    </ul>
+    <hr>
+    <a th:href="@{/exhibitions/list}">Back to Exhibitions List</a>
+</div>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
